@@ -1,10 +1,17 @@
+var bodyParser = require('body-parser')
+var data = [{ item : 'get milk'},{item :' walk dog'},{item : 'kick some coding ass'}];
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+
 module.exports = function(app){
     app.get('/todo', function(req,res){
-        res.render('todo');
+        res.render('todo',{data: data});
     });
 
-    app.post('/todo', function(req,res){
-
+    app.post('/todo',urlencodedParser, function(req,res){    
+        console.log(req.body);
+        console.log('happy');
+        data.push(req.body);
+        res.json(data);
     });
 
     app.delete('/todo', function(req,res){
