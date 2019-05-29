@@ -1,4 +1,5 @@
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var User = require('../models/todo');
 var data = [{ item : 'get milk'},{item :'walk dog'},{item : 'kick some coding ass'}];
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -8,8 +9,14 @@ module.exports = function(app){
     });
 
     app.post('/todo',urlencodedParser, function(req,res){    
-        data.push(req.body);
-        res.json(data);
+        const item = req.body;
+        const newItem = new User({
+            item 
+          });
+          newItem.save()
+            .then(user => {res.json(data);
+            })
+            .catch(err => console.log(err));
     });
 
     app.delete('/todo/:item', function(req,res){
